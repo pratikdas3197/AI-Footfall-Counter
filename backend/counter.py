@@ -179,8 +179,6 @@ def process_video(args):
     """Process video with person tracking and counting"""
     cap = cv2.VideoCapture(args.video)
 
-    print("args type", type(args))
-
     if not cap.isOpened():
         print(f"Error: Could not open video {args.video}")
         return

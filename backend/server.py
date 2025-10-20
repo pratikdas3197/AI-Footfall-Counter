@@ -1,18 +1,17 @@
+import sys
+import os
+import uuid
+import subprocess
+from typing import Optional, Literal
+from datetime import datetime
+import csv
 from fastapi import FastAPI, File, Form, UploadFile, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional, Literal
 import sqlite3
-import uuid
-import os
-import subprocess
-import csv
-from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-
-DEFAULT_PYTHON = os.getenv("DEFAULT_PYTHON")
 
 # Directories
 current_dir = os.getcwd()
@@ -131,7 +130,7 @@ def process_video_task(job_id: str, video_path: str, config: CountingConfig, out
         
         # Build command
         cmd = [
-            DEFAULT_PYTHON,
+            sys.executable,
             "counter.py",
             "--video", video_path,
             "--door_dir", config.door_direction,

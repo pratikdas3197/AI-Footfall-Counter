@@ -10,9 +10,10 @@ const Upload = ({ className }: { className?: string }) => (
 );
 
 const Play = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1M9 16v-2a2 2 0 012-2h2a2 2 0 012 2v2M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
+  <svg className={className} version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.725 60.725" fill="#ffffff" stroke="currentColor" transform="matrix(-1, 0, 0, 1, 0, 0)">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> 
+    <circle cx="19.969" cy="6.008" r="6.008"></circle> <path d="M53.99,37.782c-6.299,3.684-10.077-1.721-12.923-6.924c-0.124-0.501-0.307-1.009-0.57-1.522 c-2.203-4.285-4.502-8.527-6.908-12.703c4.699-1.499,8.996-0.13,12.375,4.602c2.748,3.85,9.176,0.158,6.396-3.737 c-6.54-9.159-16.292-11.432-26.055-5.636c-0.406,0.241-0.732,0.521-0.993,0.828c-0.148,0.058-0.295,0.122-0.44,0.19 c-0.397,0.08-0.806,0.233-1.219,0.478c-6.069,3.603-11.709,2.92-15.921-2.98c-2.75-3.85-9.176-0.158-6.395,3.737 c5.374,7.527,12.919,10.392,20.857,7.96c2.491,4.278,4.856,8.632,7.128,13.032c-3.358,1.717-6.467,3.853-9.357,6.368 c-0.125,0.109-0.236,0.222-0.341,0.335c-0.629,0.323-1.184,0.868-1.575,1.676c-1.942,4.015-3.886,8.028-5.828,12.043 c-2.086,4.312,4.626,7.438,6.704,3.146c1.846-3.814,3.694-7.633,5.541-11.445c0.25-0.141,0.498-0.309,0.736-0.518 c3.352-2.918,7.191-5.283,11.396-6.748c0.207-0.072,0.396-0.158,0.574-0.254c5.148,6.533,12.33,10.131,20.93,5.105 C62.633,42.167,58.535,35.126,53.99,37.782z">
+  </path> </g> </g> </g></svg>
 );
 
 const Loader = ({ className }: { className?: string }) => (
@@ -357,8 +358,8 @@ export default function Home() {
                   </>
                 ) : (
                   <>
+                    Start Counting <span className="ml-2"></span>
                     <Play className="w-5 h-5 mr-2" />
-                    Start Counting
                   </>
                 )}
               </button>
@@ -497,7 +498,7 @@ export default function Home() {
             </li>
             <li className="flex items-start">
               <span className="text-indigo-600 mr-2">3.</span>
-              Results are updated every minute with incoming and outgoing counts
+              Results are updated at the selected interval with incoming, outgoing and total counts
             </li>
             <li className="flex items-start">
               <span className="text-indigo-600 mr-2">4.</span>
