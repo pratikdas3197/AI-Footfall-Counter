@@ -49,6 +49,13 @@ interface LatestData {
   outgoing_last_interval: number;
 }
 
+interface CsvRecord {
+  timestamp: string;
+  total_present_inside: string;
+  incoming_last_interval: string;
+  outgoing_last_interval: string;
+}
+
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [config, setConfig] = useState<Config>({
@@ -62,6 +69,7 @@ export default function Home() {
   const [jobId, setJobId] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [latestData, setLatestData] = useState<LatestData | null>(null);
+  const [csvData, setCsvData] = useState<CsvRecord[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const API_BASE = 'http://localhost:8000';
 
@@ -93,25 +101,34 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [jobId]);
 
-  // Fetch latest CSV data every 60 seconds when processing
-  // useEffect(() => {
-  //   if (!jobId || status !== 'processing') return;
+  // Fetch latest CSV data every inteval seconds when processing
+  useEffect(() => {
+    if (!jobId || status !== 'processing') return;
 
-  //   const fetchLatestData = async () => {
-  //     try {
-  //       const response = await fetch(`${API_BASE}/api/csv-data/${jobId}`);
-  //       const data = await response.json();
-  //       if (data.latest_data) {
-  //         setLatestData(data.latest_data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching latest data:', error);
-  //     }
-  //   };
+    const fetchLatestData = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/csv-data/${jobId}`);
+        const data = await response.json();
+        if (data.data && data.data.length > 0) {
+          setCsvData(data.data);
+          // Get the latest record (last in the array)
+          const latestRecord = data.data[data.data.length - 1];
+          setLatestData({
+            timestamp: latestRecord.timestamp,
+            total_present_inside: parseInt(latestRecord.total_present_inside),
+            incoming_last_interval: parseInt(latestRecord.incoming_last_interval),
+            outgoing_last_interval: parseInt(latestRecord.outgoing_last_interval)
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching latest data:', error);
+      }
+    };
 
-  //   const interval = setInterval(fetchLatestData, config.interval * 1000);
-  //   return () => clearInterval(interval);
-  // }, [jobId, status]);
+    const interval = setInterval(fetchLatestData, config.interval * 1000); // 60 seconds
+    fetchLatestData(); // Fetch immediately
+    return () => clearInterval(interval);
+  }, [jobId, status]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -170,6 +187,7 @@ export default function Home() {
     setJobId(null);
     setStatus(null);
     setLatestData(null);
+    setCsvData([]);
   };
 
   const getStatusIcon = () => {
@@ -191,8 +209,8 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">People Counter</h1>
-          <p className="text-gray-600 mb-8">Upload a video and configure counting parameters</p>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Footfall Counter</h1>
+          <p className="text-gray-600 mb-6">Upload a video and configure counting parameters</p>
 
           {!jobId ? (
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -354,12 +372,12 @@ export default function Home() {
                   {getStatusIcon()}
                 </div>
                 
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
+                <div className="space-y-2 text-sm grid grid-cols-2">
+                  <div className="flex">
                     <span className="text-gray-600">Job ID:</span>
                     <span className="font-mono text-gray-800">{jobId}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex">
                     <span className="text-gray-600">Status:</span>
                     <span className="font-semibold text-gray-800 capitalize">{status}</span>
                   </div>
@@ -370,7 +388,7 @@ export default function Home() {
               {latestData && (
                 <div className="bg-indigo-50 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-gray-800 mb-4">Latest Count Data</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-4 gap-4">
                     <div className="bg-white rounded-lg p-4 shadow-sm">
                       <p className="text-xs text-gray-600 mb-1">Timestamp</p>
                       <p className="text-xl font-bold text-gray-800">{latestData.timestamp}</p>
@@ -386,6 +404,60 @@ export default function Home() {
                     <div className="bg-white rounded-lg p-4 shadow-sm">
                       <p className="text-xs text-gray-600 mb-1">Latest Outgoing</p>
                       <p className="text-xl font-bold text-red-600">{latestData.outgoing_last_interval}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CSV Data Table */}
+              {csvData.length > 0 && (
+                <div className="bg-gray-50 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">CSV Data History</h3>
+                  <div className="bg-white rounded-lg overflow-hidden shadow-sm">
+                    <table className="w-full">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <b>Timestamp</b>
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <b>Total Count</b>
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <b> Incoming</b>
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <b> Outgoing</b>
+                          </th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <div className="h-30 overflow-y-auto">
+                      <table className="w-full">
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {csvData.map((record, index) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                              <td className="px-4 py-3 text-sm text-gray-900">
+                                {record.timestamp}
+                              </td>
+                              <td className="px-4 py-3 text-sm font-medium text-indigo-600">
+                                {record.total_present_inside}
+                              </td>
+                              <td className="px-4 py-3 text-sm font-medium text-green-600">
+                                {record.incoming_last_interval}
+                              </td>
+                              <td className="px-4 py-3 text-sm font-medium text-red-600">
+                                {record.outgoing_last_interval}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 border-t">
+                      <p className="text-sm text-gray-600">
+                        Showing {csvData.length} records (most recent first)
+                      </p>
                     </div>
                   </div>
                 </div>
