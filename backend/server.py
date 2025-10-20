@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+DEFAULT_PYTHON = os.getenv("DEFAULT_PYTHON")
+
 # Directories
 current_dir = os.getcwd()
 # Get the parent directory
@@ -129,7 +131,7 @@ def process_video_task(job_id: str, video_path: str, config: CountingConfig, out
         
         # Build command
         cmd = [
-            "python3",
+            DEFAULT_PYTHON,
             "counter.py",
             "--video", video_path,
             "--door_dir", config.door_direction,

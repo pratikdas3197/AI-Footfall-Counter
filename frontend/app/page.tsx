@@ -59,12 +59,12 @@ interface CsvRecord {
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [config, setConfig] = useState<Config>({
-    door_direction: 'left',
+    door_direction: 'right',
     confidence: 0.01,
     skip_frames: 0,
     crop: false,
     show_preview: true,
-    interval: 60
+    interval: 1
   });
   const [jobId, setJobId] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
@@ -337,7 +337,7 @@ export default function Home() {
                     onChange={(e) => handleConfigChange('show_preview', e.target.checked)}
                     className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                   />
-                  <span className="ml-2 text-sm text-gray-500">
+                  <span className="ml-2 text-sm text-gray-700">
                     Show Preview
                   </span>
                 </label>

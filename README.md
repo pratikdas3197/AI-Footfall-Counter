@@ -15,11 +15,26 @@ This is an AI based application that uses Computer Vision - Object Detection and
 ```bash
 cd backend/
 
-python3 -m venv venv
+python -m venv venv
+```
 
+### Activate virtual environment
+#### For Linux/Mac:
+```bash
 source venv/bin/activate
+```
+#### For Windows PowerShell (recommended):
+```bash
+.\venv\Scripts\Activate.ps1
+```
+#### For Windows CMD:
+```bash
+.\venv\Scripts\activate.bat
+```
 
-pip3 install -r requirements.txt
+#### Install dependencies
+```bash
+pip install -r requirements.txt
 ```
 
 ### Frontend
@@ -43,7 +58,7 @@ npm install
 ```bash
 cd backend/
 
-python3 server.py
+python server.py
 ```
 
 ### Frontend
@@ -63,17 +78,27 @@ npm run dev
 ### Activate virtual environment
 ```bash
 cd backend/
-
+```
+#### For Linux/Mac:
+```bash
 source venv/bin/activate
+```
+#### For Windows PowerShell (recommended):
+```bash
+.\venv\Scripts\Activate.ps1
+```
+#### For Windows CMD:
+```bash
+.\venv\Scripts\activate.bat
 ```
 
 ### Run on samples videos
 ```bash
-python3 counter.py --video ../input/short_video.mp4 --door_dir up --crop --interval 1
+python counter.py --video ../input/short_video.mp4 --door_dir up --crop --interval 1`
 ```
 OR
 ```bash
-python3 counter.py --video ../input/long_video.mp4 --door_dir left
+python counter.py --video ../input/long_video.mp4 --door_dir left
 ```
 
 ## CLI Parameters:
