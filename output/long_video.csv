@@ -1,0 +1,5 @@
+timestamp,total_present_inside,incoming_last_interval,outgoing_last_interval
+0:01:00,7,20,13
+0:02:00,14,15,8
+0:03:00,9,6,11
+0:04:00,-1,8,18

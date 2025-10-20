@@ -1,0 +1,16 @@
+# Custom tracker configuration for improved tracking with little similarity
+
+tracker_type: botsort  # Using botsort which has better features for handling challenging tracking scenarios
+track_high_thresh: 0.15  # Lower threshold for the first association (default: 0.25)
+track_low_thresh: 0.05   # Lower threshold for the second association (default: 0.1)
+new_track_thresh: 0.15   # Lower threshold for initializing new tracks (default: 0.25)
+track_buffer: 60         # Increased buffer to maintain tracks longer (default: 30)
+match_thresh: 0.6        # Lower threshold for matching tracks (default: 0.8)
+fuse_score: True         # Fuse confidence scores with IoU distances
+
+# BoT-SORT specific settings
+gmc_method: sparseOptFlow  # Method for global motion compensation
+proximity_thresh: 0.3      # Lower IoU threshold for valid match with ReID (default: 0.5)
+appearance_thresh: 0.6     # Lower appearance similarity threshold for ReID (default: 0.8)
+with_reid: True            # Enable ReID for better tracking with appearance changes
+model: auto                # Use native features if detector is YOLO
