@@ -1,9 +1,10 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 import csv
 
 class CSVLogger:
     """Handles CSV logging of counting data at some intervals"""
     def __init__(self, csv_path, fps, interval_seconds=60):
+        self.start_time = datetime.now()
         self.csv_path = csv_path
         self.fps = fps
         self.last_interval = 0
@@ -18,7 +19,8 @@ class CSVLogger:
     def get_timestamp(self, frame_count):
         """Convert frame count to timestamp in HH:MM:SS format"""
         seconds = int(frame_count / self.fps)
-        return str(timedelta(seconds=seconds))
+        timestamp = self.start_time + timedelta(seconds=seconds)
+        return timestamp.strftime('%Y-%m-%d %H:%M:%S')
     
     def should_log(self, frame_count):
         """Check if we've passed a interval boundary"""

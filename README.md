@@ -1,8 +1,32 @@
-# AI Footfall Counter
+# AI based People Counting and Forecasting Demo
 
-## Description
+### Overview
 
-This is an AI based application that uses Computer Vision - Object Detection and Tracking Models to count the number of people entering and exiting a location. It uses stored CCTV video footage as input to count incoming and outgoing people and logs the count at the given intervals.
+This application leverages Artificial Intelligence (AI) and Computer Vision to monitor and analyze visitor traffic in public facilities such as City Recreation Centres. It automates the process of counting how many people enter and exit the facility using video footage, eliminating the need for manual monitoring.
+
+### Input Data
+
+The system processes recorded CCTV video footage from the facility. This video file is used as input for the AI Computer Vision models for detection and tracking of individuals within the frame.
+
+### Core Functionality
+
+1. **Object Detection and Tracking**
+
+    - The system uses AI Computer Vision models to detect and track each person visible in the video frame.
+
+    - It identifies entry and exit movements of the people across the provided boundaries of the facility (e.g., doors, gates).
+
+2. **Visitor Count Logging**
+
+    - The model logs the count of incoming and outgoing visitors along with the total visitors present in the facility at a given time.
+
+    - This data stored in CSV file provides accurate insights into peak hours, occupancy trends, and total footfall over specific timeframes.
+
+### Predictive Analytics
+
+3. **Visitor Forecasting**
+
+    - A forecasting model estimates the expected visitor traffic by hour, day, or week, supporting better resource planning and facility management.
 
 ## Installation
 
@@ -73,7 +97,7 @@ npm run dev
 
 ## Run CLI
 
-- The application can also be run as a CLI application on a saved video file with the AI counting parameters.
+- The AI counting can be executed via CLI for a saved CCTV video file and selected counting and tracking parameters.
 
 ### Activate virtual environment
 ```bash
@@ -92,26 +116,43 @@ source venv/bin/activate
 .\venv\Scripts\activate.bat
 ```
 
+## CLI Counting
+
 ### Run on samples videos
 ```bash
-python counter.py --video ../input/short_video.mp4 --door_dir up --crop --interval 1`
+python counter.py --video ../input/short_video.mp4 --door_dir up --crop --interval 1 --show
 ```
 OR
 ```bash
-python counter.py --video ../input/long_video.mp4 --door_dir left
+python counter.py --video ../input/long_video.mp4 --door_dir left --show
 ```
 
-## CLI Parameters:
+### CLI Counting Parameters:
 
 - `--video`: Path to the input video file (required).
 - `--door_dir`: Direction of the door (up, down, left, right) (required).
 - `--output`: Path to the output video file (default: output.mp4).
 - `--csv_output`: Path to the output CSV file (default: counts.csv).
-- `--crop`: Enable the center crop in the input video (default: False).
 - `--interval`: Interval between counts in seconds (default: 60).
 - `--skip_frames`: Number of frames to skip (default: 0).
 - `--conf`: Confidence threshold (default: 0.01).
+- `--crop`: Enable the center crop in the input video (default: False).
 - `--show`: Show preview of the output video (default: False).
+
+## CLI Forecasting
+
+- The AI forecasting can be executed via CLI for a saved counting CSV file and selected parameters.
+
+### Run on a sample counting CSV file
+```bash
+python forecast.py --csv_input ../counts/week_minutes.csv --interval day
+``` 
+
+### CLI Forecasting Parameters:
+
+- `--csv_input`: Path to the input CSV file (required).
+- `--interval`: Interval between counts in seconds (default: 60).
+- `--output`: Path to the output CSV file (default: counts.csv).
 
 ### Folder Structure
 
@@ -119,4 +160,4 @@ python counter.py --video ../input/long_video.mp4 --door_dir left
 - The `output` directory will contain the output video and output CSV files.
 - The `models` directory contain the AI models. Ultralytics YOLOv12n is used.
 - The `counter_jobs.db` will contain the database of the AI counting jobs.
-- The `.env` file contains the default values for the AI counting parameters.
+- The `.env` file contains the default AI counting and tracking parameters.

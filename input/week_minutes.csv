@@ -1,5 +1,4 @@
-
-Timestamp,Count,Incomming,Outgoing
+timestamp,total_present_inside,incoming_last_interval,outgoing_last_interval
 2025-10-05 6:00:00,2,2,0
 2025-10-05 6:01:00,3,1,0
 2025-10-05 6:02:00,5,2,0
