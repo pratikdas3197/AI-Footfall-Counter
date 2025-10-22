@@ -150,7 +150,7 @@ python forecast.py ../input/count_data.csv
 
 #### CLI Forecasting Parameters:
 
-- `--csv`: Path to the input CSV file (required).
+- 1st argument: Path to the input CSV file (required).
 - `--output`: Path to the output CSV file (optional).
 
 ### Folder Structure

@@ -12,6 +12,8 @@ import warnings
 from datetime import timedelta
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestRegressor
 
@@ -101,6 +103,57 @@ def create_lag_features(df, target_col, lags=[1, 2, 3, 24, 48]):
     df[f'{target_col}_rolling_std_24'] = df[target_col].shift(1).rolling(window=24, min_periods=1).std()
     
     return df
+
+def create_timeseries_chart(result_df, output_path=None):
+    """Create a seaborn timeseries chart for the forecast results"""
+    # Set up the plot style
+    plt.style.use('default')
+    sns.set_palette("husl")
+    
+    # Create figure and axis
+    fig, ax = plt.subplots(figsize=(12, 6))
+    
+    # Extract hour from timestamp for x-axis
+    result_df = result_df.copy()
+    result_df['hour'] = result_df['timestamp'].dt.hour
+    
+    # Create the timeseries plot
+    sns.lineplot(data=result_df, x='hour', y='incoming_last_interval', 
+                label='Incoming', marker='o', linewidth=2, ax=ax)
+    sns.lineplot(data=result_df, x='hour', y='outgoing_last_interval', 
+                label='Outgoing', marker='s', linewidth=2, ax=ax)
+    
+    # Customize the plot
+    ax.set_xlabel('Hour of Day', fontsize=12)
+    ax.set_ylabel('Count', fontsize=12)
+    ax.set_title('Hourly Forecast: Incoming vs Outgoing Traffic', fontsize=14, fontweight='bold')
+    
+    # Set Y-axis to start from 0
+    ax.set_ylim(bottom=0)
+    
+    # Customize x-axis to show all hours
+    ax.set_xticks(result_df['hour'].unique())
+    ax.set_xticklabels([f'{h:02d}:00' for h in sorted(result_df['hour'].unique())], rotation=45)
+    
+    # Add grid for better readability
+    ax.grid(True, alpha=0.3)
+    
+    # Customize legend
+    ax.legend(title='Traffic Direction', title_fontsize=10, fontsize=10)
+    
+    # Tight layout to prevent label cutoff
+    plt.tight_layout()
+    
+    # Save the chart if output path is provided
+    if output_path:
+        chart_path = output_path.replace('.csv', '_chart.png')
+        plt.savefig(chart_path, dpi=300, bbox_inches='tight')
+        print(f"✓ Chart saved to: {chart_path}")
+    
+    # Show the plot
+    plt.show()
+    
+    return fig
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Forecast hourly counts for the next day using Random Forest')
@@ -280,6 +333,11 @@ def forecast_data(input_csv, output_csv, n_estimators=100):
     # Save to CSV
     result.to_csv(output_path, index=False)
     print(f"\n✓ Forecast completed and saved to: {output_path}")
+    
+    # Create and display the timeseries chart
+    print("\nCreating timeseries chart...")
+    create_timeseries_chart(result, output_path)
+    
     # print(f"\nForecast summary:")
     # print(result)
     # print(f"\nSummary statistics:")

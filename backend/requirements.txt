@@ -7,3 +7,4 @@ opencv-python
 ultralytics
 scikit-learn
 pandas
+seaborn
