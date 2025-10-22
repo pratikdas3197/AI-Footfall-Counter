@@ -140,8 +140,8 @@ def process_video_task(job_id: str, video_path: str, config: CountingConfig, out
         cmd = [
             sys.executable,
             "counter.py",
-            "--video", video_path,
-            "--door_dir", config.door_direction,
+            video_path,
+            config.door_direction,
             "--output", output_video_path,
             "--csv_output", csv_path,
             "--skip_frames", str(config.skip_frames),
