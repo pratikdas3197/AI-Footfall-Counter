@@ -120,17 +120,17 @@ source venv/bin/activate
 
 ### Run on samples videos
 ```bash
-python counter.py --video ../input/short_video.mp4 --door_dir up --crop --interval 1 --show
+python counter.py ../input/short_video.mp4 up --crop --interval 1 --show
 ```
 OR
 ```bash
 python counter.py --video ../input/long_video.mp4 --door_dir left --show
 ```
 
-### CLI Counting Parameters:
+#### CLI Counting Parameters:
 
-- `--video`: Path to the input video file (required).
-- `--door_dir`: Direction of the door (up, down, left, right) (required).
+- 1st argument: Path to the input video file (required).
+- 2nd argument: Direction of the door (up, down, left, right) (required).
 - `--output`: Path to the output video file (default: output.mp4).
 - `--csv_output`: Path to the output CSV file (default: counts.csv).
 - `--interval`: Interval between counts in seconds (default: 60).
@@ -145,14 +145,13 @@ python counter.py --video ../input/long_video.mp4 --door_dir left --show
 
 ### Run on a sample counting CSV file
 ```bash
-python forecast.py --csv_input ../counts/week_minutes.csv --interval day
+python forecast.py ../input/count_data.csv
 ``` 
 
-### CLI Forecasting Parameters:
+#### CLI Forecasting Parameters:
 
-- `--csv_input`: Path to the input CSV file (required).
-- `--interval`: Interval between counts in seconds (default: 60).
-- `--output`: Path to the output CSV file (default: counts.csv).
+- `--csv`: Path to the input CSV file (required).
+- `--output`: Path to the output CSV file (optional).
 
 ### Folder Structure
 

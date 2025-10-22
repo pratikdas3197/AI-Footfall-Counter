@@ -1,8 +1,9 @@
 tqdm
-lap
 pydantic
 fastapi
 uvicorn[standard]
 python-multipart
 opencv-python
 ultralytics
+scikit-learn
+pandas

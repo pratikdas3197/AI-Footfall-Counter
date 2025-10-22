@@ -1,3 +1,11 @@
+"""
+AI Counting Server
+
+Created by: Pratik Das
+Date: 2025-10-21
+Version: 1.0
+"""
+
 import sys
 import os
 import uuid

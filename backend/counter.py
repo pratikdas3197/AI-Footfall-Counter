@@ -1,3 +1,11 @@
+"""
+AI Person Counter
+
+Created by: Pratik Das
+Date: 2025-10-21
+Version: 1.0
+"""
+
 import os
 import argparse
 import logging
@@ -42,8 +50,8 @@ class PositionConfig(BaseModel):
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description='Person tracking and counting system')
-    parser.add_argument('--video', type=str, required=True, help='Path to input video')
-    parser.add_argument('--door_dir', type=str, required=True, choices=["up", "down", "left", "right"], help='Direction of the Door')
+    parser.add_argument('video', type=str, help='Path to input video')
+    parser.add_argument('door_dir', type=str, choices=["up", "down", "left", "right"], help='Direction of the Door')
     parser.add_argument('--output', type=str, default=False, help='Path to output video')
     parser.add_argument('--csv_output', type=str, default=False, help='Path to output CSV file')
     parser.add_argument('--skip_frames', type=int, default=DEFAULT_SKIP_FRAMES, help='Number of frames to skip between processing')
